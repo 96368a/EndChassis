@@ -10,6 +10,8 @@ type App struct {
 	ctx context.Context
 }
 
+var wailsContext *context.Context
+
 // NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{}
@@ -17,6 +19,7 @@ func NewApp() *App {
 
 // startup is called at application startup
 func (a *App) startup(ctx context.Context) {
+	wailsContext = &ctx
 	// Perform your setup here
 	a.ctx = ctx
 }

@@ -1,4 +1,6 @@
 <script setup lang="ts" generic="T extends any, O extends any">
+import { store } from '~/store'
+
 defineOptions({
   name: 'IndexPage',
 })
@@ -11,20 +13,10 @@ function go() {
     router.push(`/hi/${encodeURIComponent(name.value)}`)
 }
 
-interface CommandLog {
-  command: string
-  output: string
-}
-
-const commandLogs = $ref<CommandLog[]>([])
-let command = $ref('')
+const command = ref('')
 function execute() {
-  commandLogs.push({
-    command,
-    output: command + new Date().getTime().toString(),
-  })
-  command = ''
-  console.log(command)
+  store.addCommand(command.value)
+  command.value = ''
 }
 </script>
 
@@ -48,20 +40,22 @@ function execute() {
       <button class="m-3 text-sm btn" :disabled="!name" @click="go">
         Go
       </button>
-      <var-button>说你好</var-button>
+      <var-button @click="() => console.log(store.commandQueue)">
+        说你好
+      </var-button>
     </div>
     <div class="min-h-40 flex flex-col">
       <div class="flex-1 bg-gray-800 p-4 pb-10 text-white" rounded>
-        <div v-for="commandLog in commandLogs" :key="commandLog.output">
+        <div v-for="(c, i) in store.commandQueue" :key="i">
           <div flex gap-1>
             <span class="text-green-400">guest@tailwindcss:</span>
             <span class="text-blue-400">~$</span>
-            <span ml-2>{{ commandLog.command }}</span>
+            <span ml-2>{{ c.command }}</span>
           </div>
-          <pre class="whitespace-pre-wrap text-left">{{ commandLog.output }}</pre>
+          <pre class="whitespace-pre-wrap text-left">{{ c.result }}</pre>
         </div>
 
-        <div>
+        <div v-show="!store.isCommandRunning()">
           <div flex gap-1>
             <span class="text-green-400">guest@tailwindcss:</span>
             <span class="text-blue-400">~$</span>

@@ -2,7 +2,10 @@ module changeme
 
 go 1.18
 
-require github.com/wailsapp/wails/v2 v2.7.1
+require (
+	github.com/wailsapp/wails/v2 v2.7.1
+	golang.org/x/text v0.14.0
+)
 
 require (
 	github.com/bep/debounce v1.2.1 // indirect
@@ -31,7 +34,6 @@ require (
 	golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc // indirect
 	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
 )
 
 // replace github.com/wailsapp/wails/v2 v2.7.1 => C:\Users\End505\go\pkg\mod

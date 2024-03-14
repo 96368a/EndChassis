@@ -15,6 +15,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
+      'wailsjs/': `${path.resolve(__dirname, 'wailsjs')}/`,
     },
   },
   plugins: [
@@ -67,5 +68,10 @@ export default defineConfig({
   // https://github.com/vitest-dev/vitest
   test: {
     environment: 'jsdom',
+  },
+  build: {
+    rollupOptions: {
+      external: [/wailsjs.*/],
+    },
   },
 })
